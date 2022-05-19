@@ -1,0 +1,63 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext {
+        buildToolsVersion = "29.0.3"
+        minSdkVersion = 21
+        compileSdkVersion = 29
+        targetSdkVersion = 29
+        ndkVersion = "20.1.5948944"
+    }
+    repositories {
+        google()
+        jcenter()
+        // Start: use ProGuard sentry: https://docs.sentry.io/platforms/android/proguard/?_ga=2.75876821.156696898.1627032835-1444057498.1625476325
+        mavenCentral()
+        // End: use ProGuard sentry: https://docs.sentry.io/platforms/android/proguard/?_ga=2.75876821.156696898.1627032835-1444057498.1625476325
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle:4.1.0")
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+// Start: use ProGuard sentry: https://docs.sentry.io/platforms/android/proguard/?_ga=2.75876821.156696898.1627032835-1444057498.1625476325
+plugins {
+    id "io.sentry.android.gradle" version "2.1.0"
+}
+sentry {
+    // Enables or disables the automatic upload of mapping files
+    // during a build.  If you disable this, you'll need to manually
+    // upload the mapping files with sentry-cli when you do a release.
+    autoUpload = true
+    // Disables or enables the automatic configuration of Native Symbols
+    // for Sentry. This executes sentry-cli automatically so
+    // you don't need to do it manually.
+    // Default is disabled.
+    uploadNativeSymbols = false
+
+    // Does or doesn't include the source code of native code for Sentry.
+    // This executes sentry-cli with the --include-sources param. automatically so
+    // you don't need to do it manually.
+    // Default is disabled.
+    includeNativeSources = false
+}
+// End: use ProGuard sentry: https://docs.sentry.io/platforms/android/proguard/?_ga=2.75876821.156696898.1627032835-1444057498.1625476325
+
+allprojects {
+    repositories {
+        mavenLocal()
+        maven {
+            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+            url("$rootDir/../node_modules/react-native/android")
+        }
+        maven {
+            // Android JSC is installed from npm
+            url("$rootDir/../node_modules/jsc-android/dist")
+        }
+
+        google()
+        jcenter()
+        maven { url 'https://www.jitpack.io' }
+    }
+}
